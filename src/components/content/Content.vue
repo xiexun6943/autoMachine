@@ -301,7 +301,7 @@
                     if (res['data']['code'] === 0) {
                         this.planList = res['data']['data']
                     } else {
-                        this.$message({message: res['data']['message'], type: 'error'})
+                        this.$message({message: res['data']['msg'], type: 'error'})
                     }
                 }).catch(errs => {
                     console.log(errs)
@@ -314,7 +314,7 @@
                     if (res['data']['code'] === 0) {
                         this.programList = res['data']['data']
                     } else {
-                        this.$message({message: res['data']['message'], type: 'error'})
+                        this.$message({message: res['data']['msg'], type: 'error'})
                     }
                 }).catch(errs => {
                     console.log(errs)
@@ -328,7 +328,7 @@
                 }
                 createAmount(obj).then(res => {
                     if (res['data']['code'] === 500) {
-                        this.$message({message: res['data']['data']['message'], type: 'error'})
+                        this.$message({message: res['data']['data']['msg'], type: 'error'})
                     } else {
                         this.balance = res['data']['data']['balance']
                         this.income = res['data']['data']['income']
@@ -343,7 +343,7 @@
             getLotteryKinds() {
                 createLotteryKinds().then(res => {
                     if (res['data']['code'] === 500) {
-                        this.$message({message: res['data']['data']['message'], type: 'error'})
+                        this.$message({message: res['data']['data']['msg'], type: 'error'})
                     } else {
                         res['data']['data'].forEach(ele => {
                             if (ele['typeid'] === 'pk10') {
@@ -369,7 +369,7 @@
                 }
                 createHistoryLog(obj).then(res => {
                     if (res['data']['code'] === 500) {
-                        this.$message({message: res['data']['data']['message'], type: 'error'})
+                        this.$message({message: res['data']['data']['msg'], type: 'error'})
                     } else {
                         if (res['data']['data'].length > 0) {
                             this.historyLogInfo = this.historyLogInfo.concat(res['data']['data'])
@@ -387,7 +387,7 @@
                 }
                 createLotteryRate(obj).then(res => {
                     if (res['data']['code'] === 500) {
-                        this.$message({message: res['data']['data']['message'], type: 'error'})
+                        this.$message({message: res['data']['data']['msg'], type: 'error'})
                     } else {
 
                         console.log(res['data']);
