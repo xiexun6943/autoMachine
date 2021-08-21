@@ -26,25 +26,30 @@
                  @click="tabMenusClick(index)">{{ele}}
             </div>
             <div class="table_container_01" v-if="tabIndex === 0">
-                <div class="table_01">
-                    <span v-for="(ele,index) in tabContentMenus01" :key="index">{{ele}}</span>
-                </div>
-                <div class="table_con_01" v-for="(ele,index) in planList" :key="index">
-                    <span>{{ele['hezhi']}}</span>
-                    <span>{{ele['expect']}}</span>
-                    <span>{{ele['kongqi']}}</span>
-                    <span>{{ele['amount']}}</span>
-                    <span>{{ele['status']}}</span>
-                </div>
-                <div class="table_btn_01">
-                    <span v-if="this.isOpen==='1'">
-                    <i @click="close()">一键关闭</i>
-                    </span>
-                    <span v-else>
-                    <i @click="open()">一键开启</i>
-                    </span>
-                    <span>{{this.isOpen==='1'?'已开启':'已关闭'}}</span>
-                </div>
+                <span v-if="actionGame!==null">
+                    <div class="table_01">
+                        <span v-for="(ele,index) in tabContentMenus01" :key="index">{{ele}}</span>
+                    </div>
+                    <div class="table_con_01" v-for="(ele,index) in planList" :key="index">
+                        <span>{{ele['hezhi']}}</span>
+                        <span>{{ele['expect']}}</span>
+                        <span>{{ele['kongqi']}}</span>
+                        <span>{{ele['amount']}}</span>
+                        <span>{{ele['status']}}</span>
+                    </div>
+                </span>
+                <span v-else>
+                    <div class="history_title">您还没有开通挂机</div>
+                </span>
+                    <div class="table_btn_01">
+                        <span v-if="this.isOpen==='1'">
+                        <i @click="close()">一键关闭</i>
+                        </span>
+                        <span v-else>
+                        <i @click="open()">一键开启</i>
+                        </span>
+                        <span>{{this.isOpen==='1'?'已开启':'已关闭'}}</span>
+                    </div>
             </div>
             <div class="table_container_02" v-if="tabIndex === 1">
                 <!--                <div class="table_title_02">D(目前)</div>-->
@@ -63,15 +68,20 @@
                 </div>
             </div>
             <div class="table_container_03" v-if="tabIndex === 2">
-<!--                <div class="history_title">{{historyLogInfo[0]['title']}}</div>-->
-                <div class="table_03">
-                    <span v-for="(ele,index) in tabContentMenus03" :key="index">{{ele}}</span>
-                </div>
-                <div class="table_con_03" v-for="(ele,index) in historyLogInfo" :key="index">
-                    <span>{{ele['expect']}}<br/>{{getDateFromMillisecond(ele['opentime'])}}</span>
-                    <span>{{ele['opencode']}}</span>
-                    <span>{{ele['']}}</span>
-                </div>
+                <span v-if="actionGame!==null">
+                    <div class="history_title">{{actionGame}}</div>
+                    <div class="table_03">
+                        <span v-for="(ele,index) in tabContentMenus03" :key="index">{{ele}}</span>
+                    </div>
+                    <div class="table_con_03" v-for="(ele,index) in historyLogInfo" :key="index">
+                        <span>{{ele['expect']}}<br/>{{getDateFromMillisecond(ele['opentime'])}}</span>
+                        <span>{{ele['opencode']}}</span>
+                        <span>{{ele['sum']}}</span>
+                    </div>
+                </span>
+                <span v-else>
+                    <div class="history_title">您还没有开通挂机</div>
+                </span>
             </div>
         </div>
     </div>
@@ -94,6 +104,8 @@
         name: 'content',
         data() {
             return {
+                actionGame: null,
+                actionGameId: '',
                 isOpen: '0',
                 currentTime: '',
                 balance: 0,
@@ -207,7 +219,7 @@
                 }
                 //历史开奖
                 if (this.tabIndex === 2) {
-                    this.getLotteryKinds()
+                    this.getHistoryLog(this.actionGameId)
                 }
             },
             getLoginInfoStorage() {
@@ -334,6 +346,8 @@
                         this.balance = res['data']['data']['balance']
                         this.income = res['data']['data']['income']
                         this.isOpen = res['data']['data']['isguaji']
+                        this.actionGame = res['data']['data']['gjgametile']
+                        this.actionGameId = res['data']['data']['gjgameid']
                     }
                 }).catch(errs => {
                     console.log(errs)
