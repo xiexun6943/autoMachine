@@ -63,7 +63,7 @@
                 </div>
             </div>
             <div class="table_container_03" v-if="tabIndex === 2">
-                <div class="history_title">{{historyLogInfo[0]['title']}}</div>
+<!--                <div class="history_title">{{historyLogInfo[0]['title']}}</div>-->
                 <div class="table_03">
                     <span v-for="(ele,index) in tabContentMenus03" :key="index">{{ele}}</span>
                 </div>
