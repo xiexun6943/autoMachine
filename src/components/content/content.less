@@ -16,7 +16,7 @@
     height: 225/@px;
     background: linear-gradient(0deg, #4482eb, #269ffd);
     display: grid;
-    grid-template-columns: 210/@px 350/@px 200/@px;
+    grid-template-columns: 240/@px 510/@px;
 
     div.logo_lump {
       position: relative;
@@ -24,7 +24,7 @@
       height: auto;
       line-height: 57/@px;
       margin: 0/@px auto;
-      margin-top: 85/@px;
+      margin-top: 45/@px;
       color: white;
       font-size: 32/@px;
       text-align: right;
@@ -44,14 +44,17 @@
     }
 
     div.info_con {
+      width: 100%;
       position: relative;
       height: auto;
       line-height: 45/@px;
       margin: 0/@px auto;
       margin-top: 25/@px;
       color: white;
-      font-size: 36/@px;
       text-align: left;
+      >div{
+        font-size: 26/@px;
+      }
     }
 
     div.exit {
@@ -59,10 +62,11 @@
       position: relative;
       width: 125/@px;
       height: 40/@px;
+      left: 15/@px;
       line-height: 40/@px;
       border-radius: 40/@px;
       margin: 0/@px auto;
-      margin-top: 90/@px;
+      margin-top: 45/@px;
       color: white;
       font-size: 23/@px;
       text-align: center;
@@ -182,11 +186,13 @@
         background: #3575df;
         color: white;
 
-        i{
+        i {
+          font-size: 26/@px;
           font-style: normal;
         }
 
-        &:nth-child(2){
+        &:nth-child(2) {
+          font-size: 26/@px;
           line-height: 53/@px;
           border: 1/@px solid #3575df;
           color: #3575df;
@@ -194,6 +200,7 @@
         }
 
         &:last-child {
+          font-size: 26/@px;
           line-height: 53/@px;
           border: none;
           color: #333;
@@ -258,7 +265,7 @@
 
     .table_03 {
       display: grid;
-      grid-template-columns: 110/@px 300/@px 330/@px;
+      grid-template-columns: 300/@px 330/@px 110/@px;
       margin-top: 10/@px;
 
       span {
@@ -279,7 +286,7 @@
 
     .table_con_03 {
       display: grid;
-      grid-template-columns: 110/@px 300/@px 330/@px;
+      grid-template-columns: 300/@px 330/@px 110/@px;
 
       span {
         letter-spacing: -1/@px;
@@ -293,11 +300,11 @@
         box-sizing: border-box;
 
         &:first-child {
-          line-height: 70/@px;
+          line-height: 35/@px;
         }
 
         &:nth-child(2) {
-          line-height: 35/@px;
+          line-height: 70/@px;
         }
 
         &:last-child {

@@ -4,6 +4,7 @@
             <div class="logo_lump">
                 <span class="logo"><img src="../../img/logo.png" alt=""></span>
                 云计算
+                <div class="exit" @click="exit">退出</div>
             </div>
             <div class="info_con">
                 <div>
@@ -19,7 +20,6 @@
                     目前时间: {{currentTime}}
                 </div>
             </div>
-            <div class="exit" @click="exit">退出</div>
         </div>
         <div class="tab_lump">
             <div :class="tabIndex===index?'tab_menus_active':'tab_menus'" v-for="(ele,index) in tabMenus" :key="index"
@@ -63,13 +63,14 @@
                 </div>
             </div>
             <div class="table_container_03" v-if="tabIndex === 2">
+                <div class="history_title">{{historyLogInfo[0]['title']}}</div>
                 <div class="table_03">
                     <span v-for="(ele,index) in tabContentMenus03" :key="index">{{ele}}</span>
                 </div>
                 <div class="table_con_03" v-for="(ele,index) in historyLogInfo" :key="index">
-                    <span>{{ele['title']}}</span>
                     <span>{{ele['expect']}}<br/>{{getDateFromMillisecond(ele['opentime'])}}</span>
                     <span>{{ele['opencode']}}</span>
+                    <span>{{ele['']}}</span>
                 </div>
             </div>
         </div>
@@ -145,9 +146,9 @@
                     }
                 ],
                 tabContentMenus03: [
-                    '彩种',
                     '期号/开奖时间',
-                    '开奖号码'
+                    '开奖号码',
+                    '和值'
                 ],
                 tabContent03: [
                     {
