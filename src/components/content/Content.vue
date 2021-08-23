@@ -41,15 +41,15 @@
                 <span v-else>
                     <div class="history_title">您还没有开通挂机</div>
                 </span>
-                    <div class="table_btn_01">
+                <div class="table_btn_01">
                         <span v-if="this.isOpen==='1'">
                         <i @click="close()">一键关闭</i>
                         </span>
-                        <span v-else>
+                    <span v-else>
                         <i @click="open()">一键开启</i>
                         </span>
-                        <span>{{this.isOpen==='1'?'已开启':'已关闭'}}</span>
-                    </div>
+                    <span>{{this.isOpen==='1'?'已开启':'已关闭'}}</span>
+                </div>
             </div>
             <div class="table_container_02" v-if="tabIndex === 1">
                 <!--                <div class="table_title_02">D(目前)</div>-->
@@ -340,7 +340,12 @@
                     authToken: getToken()
                 }
                 createAmount(obj).then(res => {
-                    if (res['data']['code'] === 500) {
+                    if (res['data']['code'] === 401) {
+                        this.$message({message: '登录已经失效,请从新登录', type: 'error'})
+                        setTimeout(() => {
+                            this.exit()
+                        }, 2000)
+                    } else if (res['data']['code'] === 500) {
                         this.$message({message: res['data']['data']['msg'], type: 'error'})
                     } else {
                         this.balance = res['data']['data']['balance']
