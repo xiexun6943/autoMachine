@@ -104,6 +104,9 @@
         name: 'content',
         data() {
             return {
+                clear_autoGetPlan:'',
+                clear_autoGetHistoryLog:'',
+                currentBtnIndex: NaN,
                 actionGame: null,
                 actionGameId: '',
                 isOpen: '0',
@@ -211,15 +214,30 @@
                 this.tabIndex = index
                 //选取计划
                 if (this.tabIndex === 0) {
-                    this.getPlan()
+                    if (this.currentBtnIndex !== this.tabIndex) {
+                        this.currentBtnIndex = this.tabIndex
+                        this.getPlan()
+                        this.autoGetPlan()
+                        clearInterval(this.clear_autoGetHistoryLog)
+                    }
                 }
                 //选取参数(方案)
                 if (this.tabIndex === 1) {
-                    this.getProgram()
+                    if (this.currentBtnIndex !== this.tabIndex) {
+                        this.currentBtnIndex = this.tabIndex
+                        this.getProgram()
+                        clearInterval(this.clear_autoGetPlan)
+                        clearInterval(this.clear_autoGetHistoryLog)
+                    }
                 }
                 //历史开奖
                 if (this.tabIndex === 2) {
-                    this.getHistoryLog(this.actionGameId)
+                    if (this.currentBtnIndex !== this.tabIndex) {
+                        this.currentBtnIndex = this.tabIndex
+                        this.getHistoryLog(this.actionGameId)
+                        this.autoGetHistoryLog(this.actionGameId)
+                        clearInterval(this.clear_autoGetPlan)
+                    }
                 }
             },
             getLoginInfoStorage() {
@@ -321,6 +339,24 @@
                 })
             },
 
+            //自动获取选取计划
+            autoGetPlan() {
+                this.clear_autoGetPlan = setInterval(() => {
+                    const obj = {
+                        authToken: getToken()
+                    }
+                    createPlan(obj).then(res => {
+                        if (res['data']['code'] === 0) {
+                            this.planList = res['data']['data']
+                        } else {
+                            this.$message({message: res['data']['msg'], type: 'error'})
+                        }
+                    }).catch(errs => {
+                        console.log(errs)
+                    })
+                }, 30000)
+            },
+
             //获取选取方案
             getProgram() {
                 createProgram().then(res => {
@@ -400,6 +436,27 @@
                 })
             },
 
+            //自动获取历史记录
+            autoGetHistoryLog(name) {
+                this.clear_autoGetHistoryLog = setInterval(() => {
+                    const obj = {
+                        gameName: name,
+                        limit: ''
+                    }
+                    createHistoryLog(obj).then(res => {
+                        if (res['data']['code'] === 500) {
+                            this.$message({message: res['data']['data']['msg'], type: 'error'})
+                        } else {
+                            if (res['data']['data'].length > 0) {
+                                this.historyLogInfo = this.historyLogInfo.concat(res['data']['data'])
+                            }
+                        }
+                    }).catch(errs => {
+                        console.log(errs)
+                    })
+                }, 30000)
+            },
+
             //获取彩票赔率
             getLotteryRate() {
                 const obj = {
@@ -422,6 +479,8 @@
             this.checkLoginStatus()
             this.getCurrentTime()
             this.getPlan()
+            this.currentBtnIndex = this.tabIndex
+            clearInterval(this.clear_autoGetHistoryLog)
             this.getBalance()
             //半分钟获取一次余额和收益
             setInterval(() => {
