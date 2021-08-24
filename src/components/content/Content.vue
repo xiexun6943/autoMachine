@@ -104,8 +104,8 @@
         name: 'content',
         data() {
             return {
-                clear_autoGetPlan:'',
-                clear_autoGetHistoryLog:'',
+                clear_autoGetPlan: '',
+                clear_autoGetHistoryLog: '',
                 currentBtnIndex: NaN,
                 actionGame: null,
                 actionGameId: '',
@@ -428,7 +428,7 @@
                         this.$message({message: res['data']['data']['msg'], type: 'error'})
                     } else {
                         if (res['data']['data'].length > 0) {
-                            this.historyLogInfo = this.historyLogInfo.concat(res['data']['data'])
+                            this.historyLogInfo = res['data']['data']
                         }
                     }
                 }).catch(errs => {
@@ -448,7 +448,7 @@
                             this.$message({message: res['data']['data']['msg'], type: 'error'})
                         } else {
                             if (res['data']['data'].length > 0) {
-                                this.historyLogInfo = this.historyLogInfo.concat(res['data']['data'])
+                                this.historyLogInfo = res['data']['data']
                             }
                         }
                     }).catch(errs => {
@@ -473,6 +473,10 @@
                 }).catch(errs => {
                     console.log(errs)
                 })
+            },
+
+            stopScrolling(touchEvent) {
+                touchEvent.preventDefault()
             }
         },
         mounted() {
@@ -486,6 +490,10 @@
             setInterval(() => {
                 this.getBalance()
             }, 30000)
+
+
+            document.addEventListener('touchstart', this.stopScrolling, false)
+            document.addEventListener('touchmove', this.stopScrolling, false)
         }
     }
 </script>
