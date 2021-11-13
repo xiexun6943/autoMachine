@@ -6,7 +6,7 @@ export const m = {
     password:"Remember password",
     quit:'quit',
     name:'username',
-    totle:'Total assets',
+    totle:'Total assets', 
     today:'Today`s earnings',
     time:'Current time',
     chose:'Choose plan',
