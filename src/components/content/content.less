@@ -13,7 +13,7 @@
 
   .info_lump {
     width: 100%;
-    height: 225/@px;
+    height: 330/@px;
     background: linear-gradient(0deg, #4482eb, #269ffd);
     display: grid;
     grid-template-columns: 240/@px 510/@px;
@@ -24,7 +24,7 @@
       height: auto;
       // line-height: 57/@px;
       margin: 0/@px auto;
-      margin-top: 45/@px;
+      margin-top: 25/@px;
       color: white;
       font-size: 14px;
       text-align: center;
@@ -34,19 +34,18 @@
         // top: 0;
         // left: 0;
         width: auto;
-        height: 55/@px;
-        display: flex;
-        justify-content: left;
-        text-align: left;
+        height: 220/@px;
+        margin: 0 auto;
+        display: block;
         img {
-          width: 55/@px;
-          height: 55/@px;
+          width: auto;
+          height: 220/@px;
           margin-right: 10px;
           margin-left: 15px;
         }
       }
       .logo_title{
-        font-size: 16px;
+        font-size: 14px;
       }
     }
 
@@ -70,11 +69,11 @@
       position: relative;
       width: 125/@px;
       height: 40/@px;
-      left: 15/@px;
+      left: 10/@px;
       line-height: 40/@px;
       border-radius: 40/@px;
       margin: 0/@px auto;
-      margin-top: 45/@px;
+      margin-top: 20/@px;
       color: white;
       font-size: 23/@px;
       text-align: center;
@@ -110,7 +109,7 @@
     .table_container_01 {
       position: absolute;
       width: 740/@px;
-      height: calc(~"100% - 3.85rem");
+      height: calc(~"100% - 5rem");
       margin: 0 auto;
       overflow-y: auto;
 
@@ -148,10 +147,15 @@
         padding-bottom: 15/@px;
       }
     }
-
+    .icon-zhClass{
+      grid-template-columns: 130/@px 300/@px 180/@px 170/@px 130/@px;
+    }
+    .icon-Class{
+      grid-template-columns: 130/@px 300/@px 180/@px 170/@px 130/@px;
+    }
     .table_01 {
       display: grid;
-      grid-template-columns: 70/@px 240/@px 130/@px 170/@px 130/@px;
+      grid-template-columns: 120/@px 200/@px 130/@px 200/@px 150/@px;
       // grid-template-columns: 130/@px 300/@px 180/@px 170/@px 130/@px;
       margin-top: 10/@px;
 
@@ -176,7 +180,7 @@
 
     .table_con_01 {
       display: grid;
-      grid-template-columns: 70/@px 240/@px 130/@px 170/@px 130/@px;
+      grid-template-columns: 120/@px 200/@px 130/@px 200/@px 150/@px;
       // grid-template-columns: 130/@px 300/@px 180/@px 170/@px 130/@px;
 
       span {
@@ -242,7 +246,7 @@
 
     .table_02 {
       display: grid;
-      grid-template-columns: 70/@px 110/@px 70/@px 90/@px 110/@px 90/@px 110/@px 90/@px;
+      grid-template-columns: 170/@px 150/@px 180/@px 140/@px 180/@px 160/@px 180/@px 180/@px;
       margin-top: 10/@px;
       background: #f0f0f0;
 
@@ -258,6 +262,7 @@
         display: block;
         overflow-x: scroll;
         white-space: nowrap;
+        background: #f0f0f0;
 
         &:last-child {
           border-right: 1/@px solid #cccccc;
@@ -267,7 +272,7 @@
 
     .table_con_02 {
       display: grid;
-      grid-template-columns: 70/@px 110/@px 70/@px 90/@px 110/@px 90/@px 110/@px 90/@px;
+      grid-template-columns: 170/@px 150/@px 180/@px 140/@px 180/@px 160/@px 180/@px 180/@px;
       background: #f0f0f0;
 
       span {
@@ -279,7 +284,7 @@
         border-top: none;
         border-right: none;
         box-sizing: border-box;
-
+        background: #f0f0f0;
         &:last-child {
           border-right: 1/@px solid #cccccc;
         }
@@ -299,7 +304,7 @@
 
     .table_03 {
       display: grid;
-      grid-template-columns: 300/@px 360/@px 80/@px;
+      grid-template-columns: 340/@px 280/@px 120/@px;
       margin-top: 10/@px;
 
       span {
@@ -323,10 +328,10 @@
 
     .table_con_03 {
       display: grid;
-      grid-template-columns: 300/@px 360/@px 80/@px;
+      grid-template-columns: 340/@px 280/@px 120/@px;
 
       span {
-        letter-spacing: -1/@px;
+        letter-spacing: -2/@px;
         height: 70/@px;
         line-height: 35/@px;
         font-size: 22/@px;

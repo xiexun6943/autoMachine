@@ -1,12 +1,13 @@
-export const m = { 
-    title: 'cloud computing',
+export const m = {
+    title: 'JueJiu',
+    titles: 'JueJiu',
     inputName:"please enter user name",
     inputPassword: 'Please enter the password',
     login:'Login',
     password:"Remember password",
     quit:'quit',
     name:'username',
-    totle:'Total assets', 
+    totle:'Total assets',
     today:'Today`s earnings',
     time:'Current time',
     chose:'Choose plan',

@@ -2,7 +2,7 @@
     <div class="container_home">
         <div class="logo_lump">
             <span class="logo"><img src="../../img/logo.png" alt=""></span>
-            {{$t("m.title")}}
+<!--            {{$t("m.title")}}-->
         </div>
         <div class="login_lump">
             <div class="content">
@@ -23,19 +23,35 @@
                     <el-form-item>
                         <el-button type="primary" @click="submitForm('ruleForm')"> {{$t("m.login")}}</el-button>
                     </el-form-item>
-                    
+
                 </el-form>
             </div>
-        </div>
-        <div class="lan-change">
-            <el-form>
-                <el-radio-group v-model="model1" @change="change">
-                    <el-radio v-for="item in lan"
-                            :key="item.id" :label="item.keys">
-                        {{item.lang}}
-                    </el-radio>
-                </el-radio-group>
-            </el-form>
+            <div class="lan-change">
+                <el-form v-if="this.lang == 'vn'">
+                    <el-radio-group v-model="model1" @change="change">
+                        <el-radio v-for="item in lan0"
+                                :key="item.id" :label="item.keys">
+                            {{item.lang}}
+                        </el-radio>
+                    </el-radio-group>
+                </el-form>
+                <el-form v-else-if="this.lang == 'en'">
+                    <el-radio-group v-model="model1" @change="change">
+                        <el-radio v-for="item in lan1"
+                                :key="item.id" :label="item.keys">
+                            {{item.lang}}
+                        </el-radio>
+                    </el-radio-group>
+                </el-form>
+                <el-form v-else>
+                    <el-radio-group v-model="model1" @change="change">
+                        <el-radio v-for="item in lan2"
+                                :key="item.id" :label="item.keys">
+                            {{item.lang}}
+                        </el-radio>
+                    </el-radio-group>
+                </el-form>
+            </div>
         </div>
     </div>
 </template>
@@ -68,10 +84,20 @@
                         {min: 6, max: 12, message: this.$t('m.min'), trigger: 'blur'}
                     ],
                 },
-                 lan:[
+                 lan0:[
+                    {lang:"TIẾNG ANH",keys:0},
+                    {lang:"TIẾNG TRUNG GIẢN THỂ",keys:1},
+                    // {lang:"Tiếng Việt",keys:2}
+                ],
+                lan1:[
+                    {lang:"English",keys:0},
+                    {lang:"Chinese",keys:1},
+                    // {lang:"Vietnamese",keys:2}
+                ],
+                lan2:[
                     {lang:"English",keys:0},
                     {lang:"繁体",keys:1},
-                    {lang:"Tiếng Việt",keys:2}
+                    // {lang:"Tiếng Việt",keys:2}
                 ],
                 model1:'繁体',
                 lang:null
@@ -79,10 +105,10 @@
         },
         created(){
             this.lang = localStorage.getItem('locale') || 'zh';
+            console.log(this.lang,1)
         },
         methods: {
             change(val){
-                console.log(val)
                 if(val==0){
                     this.lang='en';
                     localStorage.setItem("locale",this.lang)

@@ -35,7 +35,8 @@ module.exports = {
         // 代理重写
         proxy: {
             '/Api': {
-                target: 'http://rubikcubexy.club', // target表示代理的服务器url
+                // target: 'https://rubikcubexy.club', // target表示代理的服务器url 越南盘
+                target: 'https://mofangxx.store', // target表示代理的服务器url 香港盘
                 /*pathRewrite: { // pathRewrite表示路径重写，key表示一个正则，value表示别名
                     '^/api': '/' // 即用 '/api'表示'http://localhost:3000/api'
                 }*/
@@ -53,7 +54,7 @@ module.exports = {
     chainWebpack: config => {
         config.plugin('html')
             .tap(args => {
-                args[0].title = "平台";
+                args[0].title = "JueJiu";
                 return args;
             })
     }

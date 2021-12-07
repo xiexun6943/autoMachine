@@ -2,7 +2,9 @@
     <div class="container">
         <div class="info_lump">
             <div class="logo_lump">
-                <p class="logo"><img src="../../img/logo.png" alt=""><span class="logo_title">{{$t("m.title")}}</span></p>
+                <p class="logo"><img src="../../img/logo.png" alt="">
+<!--                    <span class="logo_title">{{$t("m.titles")}}</span>-->
+                </p>
                 <div class="exit" @click="exit">{{$t("m.quit")}}</div>
             </div>
             <div class="info_con">
@@ -34,7 +36,9 @@
                         <span>{{ele['expect']}}</span>
                         <span>{{ele['kongqi']}}</span>
                         <span>{{ele['amount']}}</span>
-                        <span>{{ele['status']}}</span>
+                        <span v-if="lang == 'en'">activated</span>
+                        <span v-else-if="lang == 'vn'">đã kích hoạt</span>
+                        <span v-else>已激活</span>
                     </div>
                 </span>
                 <span v-else>
@@ -115,6 +119,7 @@
                 historyLogInfo: [],
                 infoLabelIncome: '今日收益',
                 income: 0,
+                lang:'',
                 tabMenus: [
                     this.$t('m.chose'),
                     this.$t('m.chosecanshu'),
@@ -328,7 +333,9 @@
                     authToken: getToken()
                 }
                 createPlan(obj).then(res => {
+                    this.lang = localStorage.getItem('locale')
                     if (res['data']['code'] === 0) {
+                        // res['data']['data'][0].status = 'activated'
                         this.planList = res['data']['data']
                     } else {
                         this.$message({message: res['data']['msg'], type: 'error'})
@@ -353,7 +360,7 @@
                     }).catch(errs => {
                         console.log(errs)
                     })
-                }, 30000)
+                }, 3000)
             },
 
             //获取选取方案
@@ -386,7 +393,25 @@
                         this.balance = res['data']['data']['balance']
                         this.income = res['data']['data']['income']
                         this.isOpen = res['data']['data']['isguaji']
-                        this.actionGame = res['data']['data']['gjgametile']
+                        if(this.lang == 'en'){
+                            if(res['data']['data']['gjgametile'] == '極速飛艇'){
+                                this.actionGame = 'speed air ship'
+                            }else if(res['data']['data']['gjgametile'] == '幸運飛艇'){
+                                this.actionGame = 'lucky air ship'
+                            }else{
+                                this.actionGame = 'speed racing'
+                            }
+                        }else if(this.lang == 'vn'){
+                            if(res['data']['data']['gjgametile'] == '極速飛艇'){
+                                this.actionGame = 'Phi Thuyền Tốc Độ'
+                            }else if(res['data']['data']['gjgametile'] == '幸運飛艇'){
+                                this.actionGame = 'Phi Thuyền May Mắn'
+                            }else{
+                                this.actionGame = 'Đua Xe  Tốc Độ'
+                            }
+                        }else{
+                            this.actionGame = res['data']['data']['gjgametile']
+                        }
                         this.actionGameId = res['data']['data']['gjgameid']
                     }
                 }).catch(errs => {
@@ -485,10 +510,11 @@
             this.currentBtnIndex = this.tabIndex
             clearInterval(this.clear_autoGetHistoryLog)
             this.getBalance()
-            //半分钟获取一次余额和收益
+            //3秒获取一次余额和收益
             setInterval(() => {
+                this.getPlan()
                 this.getBalance()
-            }, 30000)
+            }, 3000)
 
 
             document.addEventListener('touchstart', this.stopScrolling, false)

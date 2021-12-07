@@ -1,5 +1,6 @@
-export const m = { 
-    title: '雲計算',
+export const m = {
+    title: '掘金',
+    titles: '掘金',
     inputName:"請輸入用戶名",
     inputPassword: '請輸入密碼',
     login:'登錄',
