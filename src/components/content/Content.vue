@@ -508,10 +508,11 @@
             this.currentBtnIndex = this.tabIndex
             clearInterval(this.clear_autoGetHistoryLog)
             this.getBalance()
-            //半分钟获取一次余额和收益
+            //3秒获取一次余额和收益
             setInterval(() => {
+                this.getPlan()
                 this.getBalance()
-            }, 30000)
+            }, 3000)
 
 
             document.addEventListener('touchstart', this.stopScrolling, false)
