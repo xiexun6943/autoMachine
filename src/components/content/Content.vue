@@ -196,6 +196,8 @@
                 localStorage.setItem(name, JSON.stringify(data));
             },
             exit() {
+                clearInterval(this.clear_autoGetPlan)
+                clearInterval(this.clear_autoGetHistoryLog)
                 this.setStorage('loginInfo', '')
                 this.setStorage('userName', '')
                 this.$router.push({path: '/'})
