@@ -2,30 +2,55 @@
     <div class="container_home">
         <div class="logo_lump">
             <span class="logo"><img src="../../img/logo.png" alt=""></span>
-            云计算
+            {{$t("m.title")}}
         </div>
         <div class="login_lump">
             <div class="content">
 
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
                     <el-form-item prop="name">
-                        <el-input v-model="ruleForm.name" placeholder="请输入用户名"></el-input>
+                        <el-input v-model="ruleForm.name" :placeholder="$t('m.inputName')"></el-input>
                     </el-form-item>
 
                     <el-form-item prop="password">
-                        <el-input v-model="ruleForm.password" placeholder="请输入密码" show-password></el-input>
+                        <el-input v-model="ruleForm.password" :placeholder="$t('m.inputPassword')" show-password></el-input>
                     </el-form-item>
 
-                    <el-form-item label="记住密码" prop="rememberPassword">
+                    <el-form-item :label="$t('m.password')" prop="rememberPassword">
                         <el-switch v-model="ruleForm.rememberPassword" @change="cancelRememberPassword()"></el-switch>
                     </el-form-item>
 
                     <el-form-item>
-                        <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+                        <el-button type="primary" @click="submitForm('ruleForm')"> {{$t("m.login")}}</el-button>
                     </el-form-item>
+                    
                 </el-form>
-
-
+            </div>
+            <div class="lan-change">
+                <el-form v-if="this.lang == 'vn'">
+                    <el-radio-group v-model="model1" @change="change">
+                        <el-radio v-for="item in lan0"
+                                :key="item.id" :label="item.keys">
+                            {{item.lang}}
+                        </el-radio>
+                    </el-radio-group>
+                </el-form>
+                <el-form v-else-if="this.lang == 'en'">
+                    <el-radio-group v-model="model1" @change="change">
+                        <el-radio v-for="item in lan1"
+                                :key="item.id" :label="item.keys">
+                            {{item.lang}}
+                        </el-radio>
+                    </el-radio-group>
+                </el-form>
+                <el-form v-else>
+                    <el-radio-group v-model="model1" @change="change">
+                        <el-radio v-for="item in lan2"
+                                :key="item.id" :label="item.keys">
+                            {{item.lang}}
+                        </el-radio>
+                    </el-radio-group>
+                </el-form>
             </div>
         </div>
     </div>
@@ -51,17 +76,53 @@
                 },
                 rules: {
                     name: [
-                        {required: true, message: '请输入用户名', trigger: 'blur'},
-                        {min: 3, max: 12, message: '长度在 3 到 12 个字符', trigger: 'blur'}
+                        {required: true, message:  this.$t('m.inputName'), trigger: 'blur'},
+                        {min: 3, max: 12, message: this.$t('m.max'), trigger: 'blur'}
                     ],
                     password: [
-                        {required: true, message: '请输入密码', trigger: 'blur'},
-                        {min: 6, max: 12, message: '长度在 6 到 12 个字符', trigger: 'blur'}
+                        {required: true, message: this.$t('m.inputPassword'), trigger: 'blur'},
+                        {min: 6, max: 12, message: this.$t('m.min'), trigger: 'blur'}
                     ],
-                }
+                },
+                 lan0:[
+                    {lang:"TIẾNG ANH",keys:0},
+                    {lang:"TIẾNG TRUNG GIẢN THỂ",keys:1},
+                    {lang:"Tiếng Việt",keys:2}
+                ],
+                lan1:[
+                    {lang:"English",keys:0},
+                    {lang:"Chinese",keys:1},
+                    {lang:"Vietnamese",keys:2}
+                ],
+                lan2:[
+                    {lang:"English",keys:0},
+                    {lang:"繁体",keys:1},
+                    {lang:"Tiếng Việt",keys:2}
+                ],
+                model1:'繁体',
+                lang:null
             }
         },
+        created(){
+            this.lang = localStorage.getItem('locale') || 'zh';
+            console.log(this.lang,1)
+        },
         methods: {
+            change(val){
+                if(val==0){
+                    this.lang='en';
+                    localStorage.setItem("locale",this.lang)
+                    this.$i18n.locale = this.lang;
+                }else if(val==1){
+                    this.lang="zh";
+                    localStorage.setItem("locale",this.lang)
+                    this.$i18n.locale = this.lang;
+                }else{
+                    this.lang="vn";
+                    localStorage.setItem("locale",this.lang)
+                    this.$i18n.locale = this.lang;
+                }
+            },
             getRememberPassword() {
                 return JSON.parse(localStorage.getItem('rememberPassword'))
             },

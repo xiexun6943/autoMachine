@@ -14,22 +14,24 @@
 
   .logo_lump {
     position: relative;
-    width: 200/@px;
+    width: auto;
     height: auto;
     line-height: 70/@px;
     margin: 100/@px auto;
     margin-bottom: 50/@px;
     color: white;
     font-size: 36/@px;
-    text-align: right;
+    text-align: center;
+    display: flex;
+    justify-content: center;
 
     .logo {
-      position: absolute;
+      // position: absolute;
       top: 0;
       left: 0;
       width: 70/@px;
       height: 70/@px;
-
+      margin-right: 30/@px;
       img {
         width: 70/@px;
         height: 70/@px;
@@ -39,7 +41,7 @@
 
   .login_lump {
     width: 576/@px;
-    height: 662/@px;
+    height: 820/@px;
     border-radius: 16/@px;
     overflow: hidden;
     position: absolute;
@@ -98,7 +100,8 @@
       }
 
       .el-form-item__label {
-        width: 150/@px;
+        // width: 150/@px;
+        width: auto;
         margin-left: 30/@px;
       }
 
@@ -359,4 +362,25 @@
 
     }
   }
+  .lan-change{
+    // position: absolute;
+    // bottom: 3rem;
+    // width: 130px;
+    // margin: 0 auto;
+    // left: 1.5rem;
+  }
+}
+.el-radio-group{
+  margin-top: .2rem;
+  position: absolute;
+  left: 1rem;
+}
+.el-radio{
+  display: block;
+  text-align: left;
+  margin-top: 5px;
+  margin-right: 10px !important;
+}
+.el-radio__label{
+  padding-left: 6px !important;
 }

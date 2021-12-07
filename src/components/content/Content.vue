@@ -2,22 +2,21 @@
     <div class="container">
         <div class="info_lump">
             <div class="logo_lump">
-                <span class="logo"><img src="../../img/logo.png" alt=""></span>
-                云计算
-                <div class="exit" @click="exit">退出</div>
+                <p class="logo"><img src="../../img/logo.png" alt=""><span class="logo_title">{{$t("m.titles")}}</span></p>
+                <div class="exit" @click="exit">{{$t("m.quit")}}</div>
             </div>
             <div class="info_con">
                 <div>
-                    用户名: {{geUserNameStorage}}
+                    {{$t("m.name")}}: {{geUserNameStorage}}
                 </div>
                 <div>
-                    总资产: {{balance}}
+                    {{$t("m.totle")}}: {{balance}}
                 </div>
                 <div>
-                    {{infoLabelIncome}}: {{income}}
+                    {{$t("m.today")}}: {{income}}
                 </div>
                 <div>
-                    目前时间: {{currentTime}}
+                    {{$t("m.time")}}: {{currentTime}}
                 </div>
             </div>
         </div>
@@ -35,20 +34,22 @@
                         <span>{{ele['expect']}}</span>
                         <span>{{ele['kongqi']}}</span>
                         <span>{{ele['amount']}}</span>
-                        <span>{{ele['status']}}</span>
+                        <span v-if="lang == 'en'">activated</span>
+                        <span v-else-if="lang == 'vn'">đã kích hoạt</span>
+                        <span v-else>已激活</span>
                     </div>
                 </span>
                 <span v-else>
-                    <div class="history_title">您还没有开通挂机</div>
+                    <div class="history_title">{{$t("m.activated")}}</div>
                 </span>
                 <div class="table_btn_01">
                         <span v-if="this.isOpen==='1'">
-                        <i @click="close()">一键关闭</i>
+                        <i @click="close()">{{$t("m.close")}}</i>
                         </span>
                     <span v-else>
-                        <i @click="open()">一键开启</i>
+                        <i @click="open()">{{$t("m.open")}}</i>
                         </span>
-                    <span>{{this.isOpen==='1'?'已开启':'已关闭'}}</span>
+                    <span>{{this.isOpen==='1'?$t('m.activated'):$t('m.closed')}}</span>
                 </div>
             </div>
             <div class="table_container_02" v-if="tabIndex === 1">
@@ -80,7 +81,7 @@
                     </div>
                 </span>
                 <span v-else>
-                    <div class="history_title">您还没有开通挂机</div>
+                    <div class="history_title">{{$t("m.activated")}}</div>
                 </span>
             </div>
         </div>
@@ -116,18 +117,19 @@
                 historyLogInfo: [],
                 infoLabelIncome: '今日收益',
                 income: 0,
+                lang:'',
                 tabMenus: [
-                    '选取计划',
-                    '选取参数',
-                    '历史开奖',
+                    this.$t('m.chose'),
+                    this.$t('m.chosecanshu'),
+                    this.$t('m.history')
                 ],
                 tabIndex: 0,
                 tabContentMenus01: [
-                    '和值',
-                    '奖期数',
-                    '空期',
-                    '投注金额',
-                    '状态'
+                    this.$t('m.Sum'),
+                    this.$t('m.number'),
+                    this.$t('m.Empty'),
+                    this.$t('m.Bet'),
+                    this.$t('m.state')
                 ],
                 planList: [
                     {
@@ -139,14 +141,14 @@
                     }
                 ],
                 tabContentMenus02: [
-                    '方案',
-                    '起金',
-                    '空期',
-                    '收益%',
-                    '触发线1',
-                    '减至%',
-                    '触发线2',
-                    '减至%'
+                    this.$t('m.plan'),
+                    this.$t('m.Raise'),
+                    this.$t('m.Emptys'),
+                    this.$t('m.income')+'%',
+                    this.$t('m.Trigger')+'1',
+                    this.$t('m.Reduced')+'%',
+                    this.$t('m.Trigger')+'2',
+                    this.$t('m.Reduced')+'%',
                 ],
                 programList: [
                     {
@@ -161,9 +163,9 @@
                     }
                 ],
                 tabContentMenus03: [
-                    '期号/开奖时间',
-                    '开奖号码',
-                    '和值'
+                     this.$t('m.Issue'),
+                     this.$t('m.Winning'),
+                     this.$t('m.Sum'),
                 ],
                 tabContent03: [
                     {
@@ -329,7 +331,9 @@
                     authToken: getToken()
                 }
                 createPlan(obj).then(res => {
+                    this.lang = localStorage.getItem('locale')
                     if (res['data']['code'] === 0) {
+                        // res['data']['data'][0].status = 'activated'
                         this.planList = res['data']['data']
                     } else {
                         this.$message({message: res['data']['msg'], type: 'error'})
@@ -387,7 +391,25 @@
                         this.balance = res['data']['data']['balance']
                         this.income = res['data']['data']['income']
                         this.isOpen = res['data']['data']['isguaji']
-                        this.actionGame = res['data']['data']['gjgametile']
+                        if(this.lang == 'en'){
+                            if(res['data']['data']['gjgametile'] == '極速飛艇'){
+                                this.actionGame = 'speed air ship'
+                            }else if(res['data']['data']['gjgametile'] == '幸運飛艇'){
+                                this.actionGame = 'lucky air ship'
+                            }else{
+                                this.actionGame = 'speed racing'
+                            }
+                        }else if(this.lang == 'vn'){
+                            if(res['data']['data']['gjgametile'] == '極速飛艇'){
+                                this.actionGame = 'Phi Thuyền Tốc Độ'
+                            }else if(res['data']['data']['gjgametile'] == '幸運飛艇'){
+                                this.actionGame = 'Phi Thuyền May Mắn'
+                            }else{
+                                this.actionGame = 'Đua Xe  Tốc Độ'
+                            }
+                        }else{
+                            this.actionGame = res['data']['data']['gjgametile']
+                        }
                         this.actionGameId = res['data']['data']['gjgameid']
                     }
                 }).catch(errs => {
