@@ -80,7 +80,7 @@ axios.interceptors.response.use(response => {
     return Promise.reject(obj);
 });
 
-const baseAddress = process.env.NODE_ENV === 'development' ? '' : 'http://qianlima.rubikcubexy.club'
+const baseAddress = process.env.NODE_ENV === 'development' ? '' : 'http://kingplot.xyz'
 
 /* todo 登录 */
 export const createLogin = async (obj) => {
