@@ -25,7 +25,7 @@
                  @click="tabMenusClick(index)">{{ele}}
             </div>
             <div class="table_container_01" v-if="tabIndex === 0">
-                <span v-if="actionGame!==null">
+                <span v-if="isOpen!=='0'">
                     <div class="table_01">
                         <span v-for="(ele,index) in tabContentMenus01" :key="index">{{ele}}</span>
                     </div>
@@ -40,16 +40,16 @@
                     </div>
                 </span>
                 <span v-else>
-                    <div class="history_title">{{$t("m.activated")}}</div>
+                    <div class="history_title">{{$t("m.closed")}}</div>
                 </span>
                 <div class="table_btn_01">
-                        <span v-if="this.isOpen==='1'">
+                        <span v-if="this.isOpen=='1'">
                         <i @click="close()">{{$t("m.close")}}</i>
                         </span>
-                    <span v-else>
+                        <span v-else>
                         <i @click="open()">{{$t("m.open")}}</i>
                         </span>
-                    <span>{{this.isOpen==='1'?$t('m.activated'):$t('m.closed')}}</span>
+                    <span>{{this.isOpen=='1'?$t('m.activated'):$t('m.closed')}}</span>
                 </div>
             </div>
             <div class="table_container_02" v-if="tabIndex === 1">
@@ -105,6 +105,7 @@
         name: 'content',
         data() {
             return {
+                clear_all:'',
                 clear_autoGetPlan: '',
                 clear_autoGetHistoryLog: '',
                 currentBtnIndex: NaN,
@@ -196,8 +197,7 @@
                 localStorage.setItem(name, JSON.stringify(data));
             },
             exit() {
-                clearInterval(this.clear_autoGetPlan)
-                clearInterval(this.clear_autoGetHistoryLog)
+                clearInterval(this.clear_all)
                 this.setStorage('loginInfo', '')
                 this.setStorage('userName', '')
                 this.$router.push({path: '/'})
@@ -221,7 +221,7 @@
                     if (this.currentBtnIndex !== this.tabIndex) {
                         this.currentBtnIndex = this.tabIndex
                         this.getPlan()
-                        this.autoGetPlan()
+                        this.getBalance()
                         clearInterval(this.clear_autoGetHistoryLog)
                     }
                 }
@@ -296,12 +296,18 @@
                 }
                 createOpenClose(obj).then(res => {
                     if (res['data']['code'] === 500) {
-                        this.$message({message: res['data']['msg'], type: 'error'})
+                        this.$message({message: res['data']['msg'], type: 'success'})
                     } else {
                         this.$message({message: res['data']['msg'], type: 'success'})
                     }
                     //操作后从新获取一次余额查询开启关闭状态
+                    this.getPlan()
                     this.getBalance()
+                    //3秒获取一次余额和收益
+                    this.clear_all = setInterval(() => {
+                        this.getPlan()
+                        this.getBalance()
+                    }, 3000)
                 }).catch(errs => {
                     console.log(errs)
                 })
@@ -309,6 +315,8 @@
 
             //一键关闭
             close() {
+                clearInterval(this.clear_autoGetPlan)
+                clearInterval(this.clear_autoGetHistoryLog)
                 //0 关闭 1开启
                 const obj = {
                     authToken: getToken(),
@@ -318,10 +326,12 @@
                     if (res['data']['code'] === 500) {
                         this.$message({message: res['data']['msg'], type: 'error'})
                     } else {
-                        this.$message({message: res['data']['msg'], type: 'success'})
+                        this.$message({message: res['data']['msg'], type: 'error'})
                     }
                     //操作后从新获取一次余额查询开启关闭状态
                     this.getBalance()
+                    this.getBalance()
+                    clearInterval(this.clear_all)
                 }).catch(errs => {
                     console.log(errs)
                 })
@@ -360,7 +370,7 @@
                     }).catch(errs => {
                         console.log(errs)
                     })
-                }, 30000)
+                }, 3000)
             },
 
             //获取选取方案
@@ -393,6 +403,9 @@
                         this.balance = res['data']['data']['balance']
                         this.income = res['data']['data']['income']
                         this.isOpen = res['data']['data']['isguaji']
+                        if(this.isOpen=='0'){
+                            clearInterval(this.clear_all)
+                        }
                         if(this.lang == 'en'){
                             if(res['data']['data']['gjgametile'] == '極速飛艇'){
                                 this.actionGame = 'speed air ship'
@@ -506,12 +519,12 @@
         mounted() {
             this.checkLoginStatus()
             this.getCurrentTime()
-            this.getPlan()
             this.currentBtnIndex = this.tabIndex
             clearInterval(this.clear_autoGetHistoryLog)
+            this.getPlan()
             this.getBalance()
             //3秒获取一次余额和收益
-            setInterval(() => {
+            this.clear_all = setInterval(() => {
                 this.getPlan()
                 this.getBalance()
             }, 3000)
