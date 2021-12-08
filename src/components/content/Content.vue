@@ -198,6 +198,8 @@
                 localStorage.setItem(name, JSON.stringify(data));
             },
             exit() {
+                clearInterval(this.clear_autoGetPlan)
+                clearInterval(this.clear_autoGetHistoryLog)
                 this.setStorage('loginInfo', '')
                 this.setStorage('userName', '')
                 this.$router.push({path: '/'})
@@ -309,6 +311,8 @@
 
             //一键关闭
             close() {
+                clearInterval(this.clear_autoGetPlan)
+                clearInterval(this.clear_autoGetHistoryLog)
                 //0 关闭 1开启
                 const obj = {
                     authToken: getToken(),
