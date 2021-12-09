@@ -1,4 +1,6 @@
 export const m = {
+    getOut: 'Bạn đã đóng JueJin',
+    noRights: 'Bạn đã không được ủy quyền',
     title: 'JueJiu',
     titles: 'JueJiu',
     inputName:"Vui lòng nhập tên người dùng",

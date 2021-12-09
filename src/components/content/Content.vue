@@ -3,7 +3,7 @@
         <div class="info_lump">
             <div class="logo_lump">
                 <p class="logo"><img src="../../img/logo.png" alt="">
-<!--                    <span class="logo_title">{{$t("m.titles")}}</span>-->
+                    <!--                    <span class="logo_title">{{$t("m.titles")}}</span>-->
                 </p>
                 <div class="exit" @click="exit">{{$t("m.quit")}}</div>
             </div>
@@ -48,7 +48,7 @@
                         <span v-if="this.isOpen=='1'">
                         <i @click="close()">{{$t("m.close")}}</i>
                         </span>
-                        <span v-else>
+                    <span v-else>
                         <i @click="open()">{{$t("m.open")}}</i>
                         </span>
                     <span>{{this.isOpen=='1'?$t('m.activated'):$t('m.closed')}}</span>
@@ -107,7 +107,7 @@
         name: 'content',
         data() {
             return {
-                clear_all:'',
+                clear_all: '',
                 clear_autoGetPlan: '',
                 clear_autoGetHistoryLog: '',
                 currentBtnIndex: NaN,
@@ -120,7 +120,7 @@
                 historyLogInfo: [],
                 infoLabelIncome: '今日收益',
                 income: 0,
-                lang:'',
+                lang: '',
                 tabMenus: [
                     this.$t('m.chose'),
                     this.$t('m.chosecanshu'),
@@ -147,11 +147,11 @@
                     this.$t('m.plan'),
                     this.$t('m.Raise'),
                     this.$t('m.Emptys'),
-                    this.$t('m.income')+'%',
-                    this.$t('m.Trigger')+'1',
-                    this.$t('m.Reduced')+'%',
-                    this.$t('m.Trigger')+'2',
-                    this.$t('m.Reduced')+'%',
+                    this.$t('m.income') + '%',
+                    this.$t('m.Trigger') + '1',
+                    this.$t('m.Reduced') + '%',
+                    this.$t('m.Trigger') + '2',
+                    this.$t('m.Reduced') + '%',
                 ],
                 programList: [
                     {
@@ -166,9 +166,9 @@
                     }
                 ],
                 tabContentMenus03: [
-                     this.$t('m.Issue'),
-                     this.$t('m.Winning'),
-                     this.$t('m.Sum'),
+                    this.$t('m.Issue'),
+                    this.$t('m.Winning'),
+                    this.$t('m.Sum'),
                 ],
                 tabContent03: [
                     {
@@ -405,26 +405,33 @@
                         this.balance = res['data']['data']['balance']
                         this.income = res['data']['data']['income']
                         this.isOpen = res['data']['data']['isguaji']
-                        if(this.isOpen=='0'){
+                        if(res['data']['data']['limit_isguaji']==='0') {
+                            clearInterval(this.clear_all)
+                            this.$message({message: this.$t('m.getOut'), type: 'error'})
+                            setTimeout(()=>{
+                                this.exit()
+                            },2000)
+                        }
+                        if (this.isOpen == '0') {
                             clearInterval(this.clear_all)
                         }
-                        if(this.lang == 'en'){
-                            if(res['data']['data']['gjgametile'] == '極速飛艇'){
+                        if (this.lang == 'en') {
+                            if (res['data']['data']['gjgametile'] == '極速飛艇') {
                                 this.actionGame = 'speed air ship'
-                            }else if(res['data']['data']['gjgametile'] == '幸運飛艇'){
+                            } else if (res['data']['data']['gjgametile'] == '幸運飛艇') {
                                 this.actionGame = 'lucky air ship'
-                            }else{
+                            } else {
                                 this.actionGame = 'speed racing'
                             }
-                        }else if(this.lang == 'vn'){
-                            if(res['data']['data']['gjgametile'] == '極速飛艇'){
+                        } else if (this.lang == 'vn') {
+                            if (res['data']['data']['gjgametile'] == '極速飛艇') {
                                 this.actionGame = 'Phi Thuyền Tốc Độ'
-                            }else if(res['data']['data']['gjgametile'] == '幸運飛艇'){
+                            } else if (res['data']['data']['gjgametile'] == '幸運飛艇') {
                                 this.actionGame = 'Phi Thuyền May Mắn'
-                            }else{
+                            } else {
                                 this.actionGame = 'Đua Xe  Tốc Độ'
                             }
-                        }else{
+                        } else {
                             this.actionGame = res['data']['data']['gjgametile']
                         }
                         this.actionGameId = res['data']['data']['gjgameid']
@@ -519,17 +526,25 @@
             }
         },
         mounted() {
+            console.log(localStorage.getItem('limit_isguaji'))
+            console.log(localStorage.getItem('isguaji'))
             this.checkLoginStatus()
             this.getCurrentTime()
             this.currentBtnIndex = this.tabIndex
             clearInterval(this.clear_autoGetHistoryLog)
-            this.getPlan()
-            this.getBalance()
-            //3秒获取一次余额和收益
-            this.clear_all = setInterval(() => {
-                this.getPlan()
-                this.getBalance()
-            }, 3000)
+            //挂机权限：limit_isguaji，1：开启，0：关闭
+            // 是否开始挂机状态：isguaji，1：开启，0：关闭
+            if (localStorage.getItem('limit_isguaji') === '1') {
+                if (localStorage.getItem('isguaji') === '1') {
+                    this.getPlan()
+                    this.getBalance()
+                    //3秒获取一次余额和收益
+                    this.clear_all = setInterval(() => {
+                        this.getPlan()
+                        this.getBalance()
+                    }, 3000)
+                }
+            }
 
 
             document.addEventListener('touchstart', this.stopScrolling, false)

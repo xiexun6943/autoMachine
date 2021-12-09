@@ -1,4 +1,6 @@
 export const m = {
+    getOut: 'You have turned off the JueJin',
+    noRights: 'You have not authorized',
     title: 'JueJiu',
     titles: 'JueJiu',
     inputName:"please enter user name",
