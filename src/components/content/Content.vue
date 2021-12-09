@@ -403,7 +403,14 @@
                         this.balance = res['data']['data']['balance']
                         this.income = res['data']['data']['income']
                         this.isOpen = res['data']['data']['isguaji']
-                        if(this.isOpen=='0'){
+                        if(res['data']['data']['limit_isguaji']==='0') {
+                            clearInterval(this.clear_all)
+                            this.$message({message: this.$t('m.getOut'), type: 'error'})
+                            setTimeout(()=>{
+                                this.exit()
+                            },2000)
+                        }
+                        if (this.isOpen == '0') {
                             clearInterval(this.clear_all)
                         }
                         if(this.lang == 'en'){
@@ -517,17 +524,25 @@
             }
         },
         mounted() {
+            console.log(localStorage.getItem('limit_isguaji'))
+            console.log(localStorage.getItem('isguaji'))
             this.checkLoginStatus()
             this.getCurrentTime()
             this.currentBtnIndex = this.tabIndex
             clearInterval(this.clear_autoGetHistoryLog)
-            this.getPlan()
-            this.getBalance()
-            //3秒获取一次余额和收益
-            this.clear_all = setInterval(() => {
-                this.getPlan()
-                this.getBalance()
-            }, 3000)
+            //挂机权限：limit_isguaji，1：开启，0：关闭
+            // 是否开始挂机状态：isguaji，1：开启，0：关闭
+            if (localStorage.getItem('limit_isguaji') === '1') {
+                if (localStorage.getItem('isguaji') === '1') {
+                    this.getPlan()
+                    this.getBalance()
+                    //3秒获取一次余额和收益
+                    this.clear_all = setInterval(() => {
+                        this.getPlan()
+                        this.getBalance()
+                    }, 3000)
+                }
+            }
 
 
             document.addEventListener('touchstart', this.stopScrolling, false)

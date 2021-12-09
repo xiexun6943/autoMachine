@@ -1,4 +1,6 @@
-export const m = { 
+export const m = {
+    getOut: 'You have turned off the JueJin',
+    noRights: 'You have not authorized',
     title: 'FinPro',
     titles: 'FinPro',
     inputName:"please enter user name",
@@ -7,7 +9,7 @@ export const m = {
     password:"Remember password",
     quit:'quit',
     name:'username',
-    totle:'Total assets', 
+    totle:'Total assets',
     today:'Today`s earnings',
     time:'Current time',
     chose:'Choose plan',

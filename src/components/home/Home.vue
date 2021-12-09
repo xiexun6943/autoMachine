@@ -23,7 +23,7 @@
                     <el-form-item>
                         <el-button type="primary" @click="submitForm('ruleForm')"> {{$t("m.login")}}</el-button>
                     </el-form-item>
-                    
+
                 </el-form>
             </div>
             <div class="lan-change">
@@ -175,11 +175,16 @@
                         //存储用户登陆信息
                         this.setStorage('loginInfo', res['data']['data']['authToken']);
                         this.setStorage('userName', this.ruleForm['name']);
+                        this.setStorage('limit_isguaji', res['data']['data']['limit_isguaji']);
+                        this.setStorage('isguaji', res['data']['data']['isguaji']);
                         // todo 打印用户登录状态
                         console.log(obj);
                         console.log(res['data']['data']['authToken']);
-
-                        this.$router.push({path: '/content'})
+                        if(res['data']['data']['limit_isguaji']!=='1'){
+                            this.$message({message: this.$t('m.noRights'), type: 'error'})
+                        }else{
+                            this.$router.push({path: '/content'})
+                        }
 
 
                         if (this.ruleForm.rememberPassword === true) {

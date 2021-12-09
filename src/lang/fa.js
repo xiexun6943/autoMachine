@@ -1,4 +1,6 @@
-export const m = { 
+export const m = {
+    getOut: '您已經關閉掘金功能',
+    noRights: '您還沒有授權',
     title: '聚寶',
     titles: '聚寶',
     inputName:"請輸入用戶名",
