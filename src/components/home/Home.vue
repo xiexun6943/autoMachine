@@ -103,10 +103,6 @@
                 lang:null
             }
         },
-        created(){
-            this.lang = localStorage.getItem('locale') || 'zh';
-            console.log(this.lang,1)
-        },
         methods: {
             change(val){
                 if(val==0){
@@ -212,6 +208,8 @@
         created() {
             //存储用户登陆信息
             this.setStorage('loginInfo', "");
+            this.lang = localStorage.getItem('locale') || 'zh';
+            console.log(this.lang,1)
         },
         mounted() {
             if (this.getRememberPassword() !== null && this.getRememberPassword()['rememberStatus'] === true) {
