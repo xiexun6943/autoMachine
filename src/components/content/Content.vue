@@ -298,7 +298,14 @@
                     if (res['data']['code'] === 500) {
                         this.$message({message: res['data']['msg'], type: 'success'})
                     } else {
-                        this.$message({message: res['data']['msg'], type: 'success'})
+                        if(this.lang == 'en'){
+                            this.$message({message: 'open success', type: 'success'})
+
+                        }else if(this.lang == 'vn'){
+                            this.$message({message: 'Thành công khi kết nối', type: 'success'})
+                        }else{
+                            this.$message({message: '開啟掛機成功', type: 'success'})
+                        }
                     }
                     //操作后从新获取一次余额查询开启关闭状态
                     this.getPlan()
@@ -326,7 +333,14 @@
                     if (res['data']['code'] === 500) {
                         this.$message({message: res['data']['msg'], type: 'error'})
                     } else {
-                        this.$message({message: res['data']['msg'], type: 'error'})
+                        if(this.lang == 'en'){
+                            this.$message({message: 'This user was successfully deleted from the hang-up list', type: 'error'})
+
+                        }else if(this.lang == 'vn'){
+                            this.$message({message: 'Người dùng này đã được xóa thành công khỏi danh sách gác máy', type: 'error'})
+                        }else{
+                            this.$message({message: '此用戶從掛機名單中刪除成功', type: 'error'})
+                        }
                     }
                     //操作后从新获取一次余额查询开启关闭状态
                     this.getBalance()
@@ -343,7 +357,6 @@
                     authToken: getToken()
                 }
                 createPlan(obj).then(res => {
-                    this.lang = localStorage.getItem('locale')
                     if (res['data']['code'] === 0) {
                         // res['data']['data'][0].status = 'activated'
                         this.planList = res['data']['data']
@@ -522,6 +535,9 @@
             stopScrolling(touchEvent) {
                 touchEvent.preventDefault()
             }
+        },
+        created() {
+            this.lang = localStorage.getItem('locale');
         },
         mounted() {
             console.log(localStorage.getItem('limit_isguaji'))
