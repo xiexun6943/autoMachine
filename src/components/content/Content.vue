@@ -413,9 +413,14 @@
                     } else if (res['data']['code'] === 500) {
                         this.$message({message: res['data']['data']['msg'], type: 'error'})
                     } else {
+
                         this.balance = res['data']['data']['balance']
                         this.income = res['data']['data']['income']
                         this.isOpen = res['data']['data']['isguaji']
+
+                        localStorage.setItem('limit_isguaji',res['data']['data']['limit_isguaji'])
+                        localStorage.setItem('isguaji',res['data']['data']['isguaji'])
+
                         if(res['data']['data']['limit_isguaji']==='0') {
                             clearInterval(this.clear_all)
                             this.$message({message: this.$t('m.getOut'), type: 'error'})
@@ -540,6 +545,8 @@
             this.lang = localStorage.getItem('locale');
         },
         mounted() {
+            //先获取一次余额并更新limit_isguaji和isguaji
+            this.getBalance()
             console.log(localStorage.getItem('limit_isguaji'))
             console.log(localStorage.getItem('isguaji'))
             this.checkLoginStatus()
