@@ -424,7 +424,7 @@
                         localStorage.setItem('limit_isguaji',res['data']['data']['limit_isguaji'])
                         localStorage.setItem('isguaji',res['data']['data']['isguaji'])
 
-                        if(res['data']['data']['limit_isguaji']==='0') {
+                        if(res['data']['data']['limit_isguaji']=='0') {
                             clearInterval(this.clear_all)
                             this.$message({message: this.$t('m.getOut'), type: 'error'})
                             setTimeout(()=>{
@@ -558,8 +558,8 @@
             clearInterval(this.clear_autoGetHistoryLog)
             //挂机权限：limit_isguaji，1：开启，0：关闭
             // 是否开始挂机状态：isguaji，1：开启，0：关闭
-            if (localStorage.getItem('limit_isguaji') === '1') {
-                if (localStorage.getItem('isguaji') === '1') {
+            if (localStorage.getItem('limit_isguaji') == '1') {
+                if (localStorage.getItem('isguaji') == '1') {
                     this.getPlan()
                     this.getBalance()
                     //3秒获取一次余额和收益
