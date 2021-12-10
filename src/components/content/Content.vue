@@ -555,6 +555,7 @@
             clearInterval(this.clear_autoGetHistoryLog)
             //挂机权限：limit_isguaji，1：开启，0：关闭
             // 是否开始挂机状态：isguaji，1：开启，0：关闭
+            setTimeout(()=>{
             if (localStorage.getItem('limit_isguaji') == '1') {
                 if (localStorage.getItem('isguaji') == '1') {
                     this.getPlan()
@@ -566,6 +567,7 @@
                     }, 3000)
                 }
             }
+            }, 1000)
 
 
             document.addEventListener('touchstart', this.stopScrolling, false)
